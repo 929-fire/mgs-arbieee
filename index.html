@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png">
+<title>META-MGS</title>
+<style>
+*{box-sizing:border-box;font-family:'Segoe UI',Tahoma,sans-serif}
+body{
+  margin:0;
+  background:linear-gradient(135deg,#eaf6ff,#ffffff);
+  color:#0a2540;
+  min-height:100vh;
+}
+.center{display:flex;align-items:center;justify-content:center;min-height:100vh}
+.card{
+  background:#fff;
+  padding:28px;
+  border-radius:18px;
+  box-shadow:0 20px 40px rgba(0,0,0,.12);
+  width:100%;
+  max-width:360px;
+  text-align:center
+}
+h2{margin:10px 0}
+
+/* PASSCODE */
+.passcode-boxes{display:flex;justify-content:space-between;margin:20px 0}
+.passcode-box{
+  width:55px;height:55px;border:2px solid #cfe8ff;border-radius:12px;
+  display:flex;align-items:center;justify-content:center;font-size:26px;background:#f7fbff
+}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.keypad button{
+  padding:15px;font-size:18px;border:none;border-radius:12px;
+  background:#e1f1ff;cursor:pointer
+}
+.keypad button:hover{background:#cbe6ff}
+
+/* LOADING */
+.loading-bar{height:10px;background:#e0efff;border-radius:10px;overflow:hidden;margin-top:20px}
+.loading-fill{height:100%;width:0;background:linear-gradient(90deg,#4da3ff,#7cc4ff);transition:width 2.5s linear}
+
+/* HOME */
+.home{display:none;padding:24px;max-width:900px;margin:auto}
+.profile{
+  display:flex;flex-direction:column;align-items:center;text-align:center
+}
+.profile img{width:90px;border-radius:50%}
+.profile h3{margin:12px 0 0}
+.profile p{margin:4px 0;font-weight:500}
+.profile small{color:#5c7a99}
+
+.message-card{
+  margin-top:30px;
+  background:#ffffff;
+  border-radius:20px;
+  box-shadow:0 12px 25px rgba(0,0,0,.08);
+  padding:25px;
+  display:flex;align-items:center;gap:18px;
+  cursor:pointer
+}
+.message-card img{width:64px;height:64px}
+.message-card h4{margin:0}
+
+.logout{
+  margin-top:30px;
+  background:#eaf6ff;
+  border:none;
+  padding:14px 20px;
+  border-radius:14px;
+  cursor:pointer
+}
+
+.company{
+color: blue;
+font: bold;
+}
+
+/* FLOATERS */
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);display:none;align-items:center;justify-content:center;z-index:10}
+.message-box{
+  background:#fff;width:90%;max-width:420px;max-height:80vh;
+  border-radius:20px;padding:22px;position:relative;animation:slideUp .35s
+}
+.message-content{overflow-y:auto;max-height:60vh;padding-right:5px}
+.close{position:absolute;top:14px;right:18px;font-size:20px;cursor:pointer}
+
+.confirm{
+  background:#fff;border-radius:18px;padding:25px;width:90%;max-width:360px;text-align:center
+}
+.confirm button{margin:10px;padding:10px 18px;border:none;border-radius:10px;cursor:pointer}
+
+@keyframes slideUp{from{transform:translateY(30px);opacity:0}to{transform:none;opacity:1}}
+
+@media(min-width:768px){
+  .profile{flex-direction:row;gap:20px;text-align:left}
+}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div id="login" class="center">
+  <div class="card">
+    <H3 class="company">META-MGS.CLOUD</H3>
+    <h2>Enter the Passcode</h2>
+    <div class="passcode-boxes">
+      <div class="passcode-box" id="b0"></div>
+      <div class="passcode-box" id="b1"></div>
+      <div class="passcode-box" id="b2"></div>
+      <div class="passcode-box" id="b3"></div>
+    </div>
+    <div class="keypad">
+      <button onclick="addNum(1)">1</button><button onclick="addNum(2)">2</button><button onclick="addNum(3)">3</button>
+      <button onclick="addNum(4)">4</button><button onclick="addNum(5)">5</button><button onclick="addNum(6)">6</button>
+      <button onclick="addNum(7)">7</button><button onclick="addNum(8)">8</button><button onclick="addNum(9)">9</button>
+      <button onclick="resetCode()">⌫</button><button onclick="addNum(0)">0</button><button disabled></button>
+    </div>
+  </div>
+</div>
+
+<!-- LOADING -->
+<div id="loading" class="center" style="display:none">
+  <div class="card">
+    <p>Connecting into meta servers…</p>
+    <div class="loading-bar"><div class="loading-fill" id="load"></div></div>
+  </div>
+</div>
+
+<!-- HOME -->
+<div id="home" class="home">
+  <div class="profile">
+    <img src="flores.png">
+    <div>
+      <h3>@arbieflores_</h3>
+      <p>Abi</p>
+      <small>Proverbs 16:3</small>
+    </div>
+  </div>
+
+  <div class="message-card" onclick="openMessage()">
+    <img src="https://cdn-icons-png.flaticon.com/512/2462/2462719.png">
+    <div>
+      <h4>Message</h4>
+      <small>Tap to open your private message from Aldrin</small>
+    </div>
+  </div>
+
+  <div class="message-card" onclick="openColors()">
+    <img src="https://cdn-icons-png.flaticon.com/512/2907/2907253.png">
+    <div>
+      <h4>Favorite Colors</h4>
+      <small>Tap to see favorite colors</small>
+    </div>
+  </div>
+
+  <button class="logout" onclick="logout()">Logout</button>
+</div>
+
+<!-- MESSAGE -->
+<div class="overlay" id="msgOverlay">
+  <div class="message-box">
+    <span class="close" onclick="closeMessage()">✕</span>
+    <h3>Hello Arbiee,</h3>
+    <div class="message-content">
+      <p>
+      Ako nga pala si Aldrin, taga 11-STEM Luxembourg. Halos isang taon na rin akong naging parte ng mga activities natin—sa organization, sa school o Quantum Vision. Doon na rin tayo nagkakilala, at nasabi ko na lahat tungkol sa sarili ko HAHAHAHHAA
+      <br><br>
+      Ang message na ’to ay para sa’yo talaga. Sa totoo lang, matagal na akong hinihikayat—lalo na nina President Ruth at Ma’am Mirey—na magsabi na at maging honest. Kaya heto na ako ngayon, sana ma-appreciate mo ang message na ’to.
+      <br><br>
+      Arbie, naaalala ko pa nung unang araw ng event—yung botohan sa classroom kung sino ang magiging officers ng Quantum Vision. Magkatabi pala tayo noon, pero hindi ko agad napansin na ikaw ‘yun. Nalaman ko lang nung tumayo na ako sa unahan at saka ko narealize na ikaw pala ‘yun (may patunay ako may picture ako selfiee HAHAHAHA).
+      <br><br>
+      Sumunod na nagkausap tayo nung unang event ng Quantum Vision habang nagde-decorate tayo sa hallway ng Montero Hall. Katabi ko noon si Jamal at inaayos namin yung computer, tapos may biglang sumulpot sa gilid namin—ikaw pala ‘yun. Akala ko nung una, student ka lang, hindi ko alam na officer ka rin pala ng Quantum Vision, kaya medyo nagulat din ako.
+      <br><br>
+      Doon talaga nagsimula na mas makilala kita. Hanggang sa mga sumunod na araw—kahit umuulan, bumabagyo, may suspension—tuloy pa rin ang events. Doon din tayo nag-usap sa taas ng main building kung saan ang Photo Booth. Alam na natin pareho yung napag-usapan natin doon, at doon unti-unti kitang mas nakilala bilang kaibigan.
+      <br><br>
+      Hindi rin naging madali para sa’kin na sabihin ’to. Ang una talagang nakaalam ay si Ate Ruth dahil nagpaalam muna ako sa kanya eh. Sumunod si Ma’am Mirey na halos 24/7 akong kinulit hangga’t hindi ako nagsasabi ng totoo.
+      <br><br>
+      Sa bawat ngiti mo, tawa mo, biro mo, at mga simpleng salita mo, parang doon ako nakakakuha ng energy. Kaya kung minsan may mga shared post ko na parang may pinaparinggan—may ibig sabihin talaga ’yun. Sana kahit papaano, napansin mo HAHAHAHAHHA
+      <br><br>
+      Kaya sasabihin ko na nang diretso,
+      Arbiee, may gusto ako sa’yo. I like you.
+      Alam kong maiisip mo kung bakit, kaya ipapaliwanag ko. Nagustuhan kita hindi lang dahil sa unang beses na nagkatabi tayo sa room o organization events. Mas tumatak sa’kin yung moment nung tumabi ka sa’min ni Jamal habang inaayos namin yung computer nakatitig kase ako nun sayo, lalo na nung inabot ko sa’yo yung pilot ballpen. Simple lang, pero doon talaga nagsimula ’yun. Habang tumatagal at mas nakikita kita sa mga sumunod na araw, mas lalo kitang nagugustuhan.
+      <br><br>
+      Nagustuhan kita bilang isang responsible. Gusto ko yung attitude mo—medyo mataray pero masayahin ka. Gusto ko yung ganung personality. Mas sumasaya rin ako kapag kasama kita, tulad nung nag-ikot tayo para sa t-shirt at room to room.
+      <br><br>
+      Sa totoo lang, sa buong buhay ko, bihira akong makakita ng babaeng kasing tulad mo. Kaya sana, kung mababasa mo man ’to, ma-appreciate mo na may paghanga talaga ako sa’yo. Hindi naman agad ako naliligaw baka soon pa HAHAHAHAHA—gusto ko lang ipaalam na may paghanga ako sa’yo.
+      <br><br>
+      Sana rin ay huwag kang magalit. Kung sakali mang magalit ka dahil nakukulitan ka sakin, sabihin mo nalang sakin at tatanggapin ko ako mismo ang lalayo parang napapansin ko kase eh. Ang mahalaga sa’kin ay nasabi ko na yung matagal ko nang kinikimkim para gumaan na rin ang loob ko.
+      <br><br>
+      Sana ma-appreciate mo rin yung gift ko sa’yo—para sa Christmas at New Year. Yun lang talaga ang nakita kong swak at available sa shop, kaya sana magustuhan mo.
+      <br><br>
+      Tungkol naman dun sa isa kong pinangako—yung puppy—seryoso ako doon. Japanese Spitz na may halong Pomeranian. Hindi pa lang nanganganak yung nanay, kaya inaantay pa. Kapag okay na, ipapa-stay muna sa Clinic. Siguro next next month, mauupdate kita tungkol doon kung gusto mo pa rin, pero 50/50 muna ako baka mag karoon ng accident from birth.
+      <br><br>
+      Alam ko rin na birthday mo ngayong January nextyear, kaya inaantay ko rin ’yun. Malay mo, may sorpresa pa. HAHAHAHAHAHAHA at mag papaalam din pala ako na may picture ka sakin at my back of my I’D hindi molang nakikita pero nasa likuran ng id ko kase and parang gusto ko kase pa pirmahan ko sayo, kung papayag ka?
+      <br><br>
+      Also, sa mga biro mo sakin, okay lang yun pero hindi ako taong mayabang like sa mga pinopost ko sa Facebook o Instagram—kung ano. Ginagawa ko lang ’yun para maging masaya yung araw ko, hindi para ipagmalaki kung ano ang meron ako o kung magkano ang kinikita ko. Alam mo rin naman na this year, magba-back out na ako bilang president ng room namin. Yung reasons, mas maigi kung personal ko na lang sasabihin sa’yo.
+      <br><br>
+      Gumaan talaga ang loob ko sa nailahad kona message na ’to sayo. Sana ma-appreciate mo, lalo na yung mismong mensahe, mahaba nanaman ang bakasyon wala nanaman energy, haysss
+      <br><br>
+      Maraming salamat, Arbiee.
+      Merry Christmas and a Happy New Year. 
+      <br><br><br>
+      Respectfully yours,
+      Aldrin Tamayo
+      </p>
+    </div>
+  </div>
+</div>
+
+<!-- FAVORITE COLORS -->
+<div class="overlay" id="colorOverlay">
+  <div class="message-box">
+    <span class="close" onclick="closeColors()">✕</span>
+    <h3>Arbiee Favorite Colors</h3>
+    <div class="message-content">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:15px">
+        <div style="background:#4da3ff;border-radius:16px;padding:20px;color:white;text-align:center">
+          <p>Blue</p>
+        </div>
+        <div style="background:#6b8e23;border-radius:16px;padding:20px;color:white;text-align:center">
+          <p>Avocado Green</p>
+        </div>
+        <div style="background:#7a3db8;border-radius:16px;padding:20px;color:white;text-align:center">
+          <p>Purple</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REFRESH WARNING -->
+<div class="overlay" id="refreshBox">
+  <div class="confirm">
+    <p>If you refresh this website, you are automatically logged out your account.</p>
+    <button onclick="proceedRefresh()">Refresh</button>
+    <button onclick="cancelRefresh()">Cancel</button>
+  </div>
+</div>
+
+<script>
+const correct="1220";let input="";let allowRefresh=false;
+function addNum(n){if(input.length<4){input+=n;document.getElementById('b'+(input.length-1)).innerText='•';if(input.length===4)check()}}
+function resetCode(){input="";for(let i=0;i<4;i++)document.getElementById('b'+i).innerText=""}
+function check(){
+ if(input===correct){
+  sessionStorage.setItem('logged','true');
+  login.style.display='none';loading.style.display='flex';
+  setTimeout(()=>load.style.width='100%',100);
+  setTimeout(()=>{loading.style.display='none';home.style.display='block'},2600)
+ }else{alert('Incorrect passcode');resetCode()}}
+function openMessage(){msgOverlay.style.display='flex'}
+function closeMessage(){msgOverlay.style.display='none'}
+function openColors(){colorOverlay.style.display='flex'}
+function closeColors(){colorOverlay.style.display='none'}
+function logout(){sessionStorage.clear();location.reload()}
+window.addEventListener('beforeunload',e=>{if(sessionStorage.getItem('logged')&&!allowRefresh){e.preventDefault();refreshBox.style.display='flex';return e.returnValue=''}});
+function proceedRefresh(){allowRefresh=true;location.reload()}
+function cancelRefresh(){refreshBox.style.display='none'}
+</script>
+</body>
+</html>
